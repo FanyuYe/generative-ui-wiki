@@ -3,7 +3,8 @@ title: Dashboard
 created: 2026-04-19
 updated: 2026-04-19
 type: dashboard
-tags: [meta]
+tags:
+  - meta
 sources: []
 ---
 
