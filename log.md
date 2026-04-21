@@ -57,3 +57,9 @@
 - Scope broadened in place from a Generative UI-only domain to a practical Artificial Intelligence domain.
 - Preserved: existing AG-UI raw sources and compiled markdown pages without content rewrites.
 - Added: lean AI tag taxonomy, practical ingest rules, and `paper-summary` as a new domain-specific page type.
+
+## [2026-04-21] query | How Blazor Server Fits into the AG-UI Ecosystem
+- Created: queries/blazor-server-in-ag-ui-ecosystem.md
+- Updated: index.md
+- Updated: log.md
+- Used existing AG-UI wiki pages plus current external documentation to distinguish explicit AG-UI support from Blazor-specific inference.

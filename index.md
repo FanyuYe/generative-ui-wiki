@@ -2,7 +2,7 @@
 
 > Content catalog. Every wiki page listed under its type with a one-line summary.
 > Read this first to find relevant pages for any query.
-> Last updated: 2026-04-21 | Total pages: 11
+> Last updated: 2026-04-21 | Total pages: 12
 
 ## Source Summaries
 <!-- Alphabetical within section. Format: - [[page-name]] — one-line summary -->
@@ -38,3 +38,4 @@
 
 ## Query Results
 <!-- Filed answers to notable questions -->
+- [[blazor-server-in-ag-ui-ecosystem|How Blazor Server Fits into the AG-UI Ecosystem]] — Practical answer on Blazor Server as a custom AG-UI client shell around a .NET AG-UI backend, with current ecosystem caveats.
