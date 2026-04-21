@@ -42,3 +42,12 @@
 - Updated: systems/microsoft-agent-framework-ag-ui-integration.md
 - Updated: index.md
 - Updated: log.md
+
+## [2026-04-21] ingest | State Management with AG-UI
+- Source: raw/articles/state-management-with-ag-ui.md
+- Created: source-summaries/state-management-with-ag-ui-summary.md
+- Created: concepts/shared-ui-state-synchronization.md
+- Updated: concepts/ag-ui-protocol.md
+- Updated: systems/microsoft-agent-framework-ag-ui-integration.md
+- Updated: index.md
+- Updated: log.md

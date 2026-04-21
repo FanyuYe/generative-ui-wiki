@@ -1,10 +1,10 @@
 ---
 title: Microsoft Agent Framework AG-UI Integration
 created: 2026-04-20
-updated: 2026-04-20
+updated: 2026-04-21
 type: system
 tags: [generative-ui, software-agents, framework, runtime-rendering, state-management, tool-use]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md]
 contradictions: []
 status: active
 ---
@@ -33,6 +33,7 @@ The source describes two implementation paths.
 - Protocol adapter converts `AgentResponseUpdate` into AG-UI events.
 - Backend tools are created with `AIFunctionFactory.Create()`; complex parameter types require serializer options from the app's configured HTTP `JsonOptions`.
 - Package: `Microsoft.Agents.AI.Hosting.AGUI.AspNetCore`.
+- State middleware can read `ag_ui_state`, run a schema-constrained first pass for structured state, emit `STATE_SNAPSHOT` events via JSON `DataContent`, then run a second pass for user-facing summary text.
 
 ### Python path
 
@@ -43,6 +44,7 @@ The source describes two implementation paths.
 - Message adapters convert between AG-UI and Agent Framework message formats.
 - Backend tools are Python functions marked with `@tool`, typed with annotations and `Field` metadata, and attached to the agent before the FastAPI endpoint is registered.
 - Package: `agent-framework-ag-ui --pre`.
+- `state_schema` and `predict_state_config` can map tool arguments into protocol state, producing predictive `STATE_DELTA` events followed by final committed snapshots.
 
 An earlier Microsoft Developer Community walkthrough uses a Python `ChatAgent`, an `ai_function`-decorated order lookup tool, `AzureOpenAIChatClient`, and `add_agent_framework_fastapi_endpoint(app, agent, path="/chat")`. The later backend-tool-rendering documentation uses `@tool`; treat the older decorator as source-specific API context rather than the preferred current pattern.
 
@@ -55,6 +57,8 @@ This makes [[backend-tool-rendering]] one of the clearest concrete Generative UI
 ## User Experience
 
 Users can receive immediate feedback while an agent runs, inspect tool progress, approve sensitive actions, and see interface state synchronize with backend execution. With [[copilotkit]], a React frontend can register the endpoint as an `HttpAgent` and use AG-UI features without implementing a custom protocol client from scratch.
+
+The state-management tutorial shows that this is not just passive synchronization. Clients can receive optimistic state deltas while the model is still preparing a tool call, then reconcile them with a committed final state. That makes [[shared-ui-state-synchronization]] part of the integration's core Generative UI value, not a side feature.
 
 The Python client example shows the intended interaction model: `AGUIChatClient` connects to the endpoint, the client keeps a protocol-managed thread, streamed text is printed as it arrives, and tool calls/results are rendered as separate visible events. This is a concrete implementation of [[agent-execution-observability]].
 
@@ -80,6 +84,7 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - [[copilotkit]]
 - [[agent-ui-protocol-bridge]]
 - [[backend-tool-rendering]]
+- [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
 
 ## Sources
@@ -87,3 +92,4 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - raw/articles/ag-ui-integration-with-agent-framework.md
 - raw/articles/backend-tool-rendering-with-ag-ui.md
 - raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md
+- raw/articles/state-management-with-ag-ui.md
