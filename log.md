@@ -51,3 +51,9 @@
 - Updated: systems/microsoft-agent-framework-ag-ui-integration.md
 - Updated: index.md
 - Updated: log.md
+
+## [2026-04-21] update | Broaden schema from Generative UI to Artificial Intelligence
+- Updated: SCHEMA.md
+- Scope broadened in place from a Generative UI-only domain to a practical Artificial Intelligence domain.
+- Preserved: existing AG-UI raw sources and compiled markdown pages without content rewrites.
+- Added: lean AI tag taxonomy, practical ingest rules, and `paper-summary` as a new domain-specific page type.

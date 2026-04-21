@@ -2,7 +2,15 @@
 
 ## Domain
 
-This wiki covers Generative UI: systems, patterns, tools, research, products, and design practices where user interfaces are generated, adapted, or orchestrated by AI models. It tracks how LLMs and multimodal models create interface structure, interaction flows, component code, agentic app behavior, personalized experiences, and evaluation methods for AI-generated interfaces.
+This wiki covers Artificial Intelligence broadly: classical AI, machine learning, deep learning, generative AI, LLMs, agent systems, AI-native software, productivity tools, evaluation, and important industry movement across research labs, companies, and notable researchers.
+
+It is optimized for three practical lanes:
+
+- software engineering and AI-native product/system building
+- fundamentals and research understanding
+- industry trends, frontier labs, notable people, and strategic shifts
+
+Existing Generative UI content remains fully in scope as one application and systems cluster within the broader AI domain.
 
 ## Conventions
 
@@ -13,6 +21,8 @@ This wiki covers Generative UI: systems, patterns, tools, research, products, an
 - Every new knowledge page must be added to `index.md` under the correct section
 - Every action must be appended to `log.md`
 - Raw source files under `raw/` are immutable; corrections and synthesis belong in wiki pages
+- Prefer lean tags that improve retrieval and decision-making; do not add narrowly stylistic tags that create taxonomy sprawl
+- Use tags and query-result pages to cut across the three practical lanes even when directory structure remains page-type-oriented
 
 ## Frontmatter
 
@@ -23,7 +33,7 @@ All wiki pages, except raw sources, must include this frontmatter:
 title: Page Title
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-type: entity | concept | comparison | query-result | source-summary | pattern | system | evaluation
+type: entity | concept | comparison | query-result | source-summary | paper-summary | pattern | system | evaluation
 tags: [from taxonomy below]
 sources: [raw/articles/source-name.md]
 contradictions: []
@@ -31,7 +41,7 @@ contradictions: []
 ```
 
 Required fields: `title`, `created`, `updated`, `type`, `tags`, `sources`.
-Optional fields: `contradictions`, `author` for source summaries, `query` for query results, `status` for systems and patterns, `maturity` for evaluations.
+Optional fields: `contradictions`, `author` for source summaries, `query` for query results, `status` for systems, patterns, and paper summaries, `maturity` for evaluations, and `authors` / `venue` / `year` for paper summaries.
 
 Meta pages may use `type: dashboard`, `type: index`, `type: log`, or omit frontmatter when the page is operational rather than knowledge content.
 
@@ -39,22 +49,21 @@ Meta pages may use `type: dashboard`, `type: index`, `type: log`, or omit frontm
 
 Add new tags here before using them.
 
-- Domain: `generative-ui`, `ai-ux`, `human-computer-interaction`, `software-agents`
-- Interface generation: `layout-generation`, `component-generation`, `code-generation`, `workflow-generation`, `personalization`, `adaptive-ui`
-- Interaction patterns: `chat-ui`, `canvas-ui`, `forms`, `dashboards`, `multimodal-ui`, `tool-use`
-- Systems and products: `product`, `framework`, `platform`, `prototype`, `open-source`
-- Models and techniques: `llm`, `multimodal-model`, `prompting`, `planning`, `retrieval`, `state-management`, `evaluation`
-- Design and quality: `accessibility`, `usability`, `latency`, `trust`, `safety`, `observability`
-- Research and market: `paper`, `case-study`, `benchmark`, `trend`, `company`, `person`
-- Meta: `comparison`, `timeline`, `taxonomy`, `open-question`, `meta`
+- Domain and focus: `artificial-intelligence`, `classical-ai`, `machine-learning`, `deep-learning`, `generative-ai`, `llm`, `software-agents`, `generative-ui`, `ai-native-software`, `productivity`
+- Practical lenses: `software-engineering`, `academic-research`, `industry-trend`, `applications`, `human-computer-interaction`
+- Learning and methods: `training`, `supervised-learning`, `unsupervised-learning`, `reinforcement-learning`, `fine-tuning`, `inference`, `optimization`, `attention`, `prompting`, `retrieval`, `planning`, `state-management`, `tool-use`
+- Systems and artifacts: `model`, `framework`, `system`, `pattern`, `evaluation`, `paper`, `product`, `company`, `person`, `open-source`, `runtime-rendering`, `adaptive-ui`
+- Quality and meta: `observability`, `latency`, `safety`, `trust`, `trend`, `comparison`, `timeline`, `open-question`, `meta`
 
 Rule: every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.
 
 ## Page Thresholds
 
-- Create a page when an entity, system, pattern, or concept appears in 2+ sources or is central to one important source
+- Create a page when an entity, concept, system, pattern, evaluation, or paper is central to one important source or appears in 2+ sources
 - Add to an existing page when a source mentions something already covered
-- Do not create a page for passing mentions, minor implementation details, or things outside Generative UI
+- Use `source-summary` when material is worth keeping but still too source-specific, immature, or time-sensitive to promote into a broader page
+- Use `query-result` for practical answers, trend checks, or decision-support notes that are worth preserving
+- Do not create a page for passing mentions, minor implementation details, or transient commentary that has not yet shown durable relevance to Artificial Intelligence or adjacent AI-native work
 - Split a page when it exceeds about 200 lines; break into sub-topics with cross-links
 - Archive a page when its content is fully superseded; move it to `_archive/`, remove from the index, and update links
 
@@ -66,7 +75,7 @@ One page per notable entity: people, organizations, products, models, projects, 
 
 - Overview / what it is
 - Key facts and dates
-- Relationship to Generative UI
+- Why it matters in AI practice, research, or industry
 - Relationships to other entities via `[[wikilinks]]`
 - Source references
 
@@ -76,7 +85,7 @@ One page per concept or topic. Include:
 
 - Definition / explanation
 - Current state of knowledge
-- Practical implications for Generative UI
+- Practical implications or decision relevance
 - Open questions or debates
 - Related concepts via `[[wikilinks]]`
 
@@ -96,7 +105,18 @@ One per ingested source. Include:
 - Key points
 - Detailed notes organized by section
 - Connections to existing wiki pages
+- What seems durable versus time-sensitive
 - Open questions raised by the source
+
+### Query Result Pages
+
+Filed answers to recurring or important questions. Include:
+
+- The exact question being answered
+- Short answer or conclusion
+- Evidence and source references
+- Practical recommendation or next step
+- Links to any entity, concept, system, or pattern pages that should absorb the durable insight later
 
 ## Update Policy
 
@@ -114,7 +134,7 @@ When new information conflicts with existing content:
 
 #### `pattern`
 
-Use for recurring Generative UI interaction or architecture patterns, such as chat-to-canvas, agent-generated forms, adaptive dashboards, or UI-as-tool-output.
+Use for recurring AI-native interaction, workflow, or architecture patterns, such as backend tool rendering, agent-ui protocol bridges, human-in-the-loop approval loops, or retrieval-grounded software flows.
 
 Required extra fields:
 
@@ -124,7 +144,7 @@ status: observed | emerging | deprecated
 
 #### `system`
 
-Use for concrete Generative UI products, prototypes, frameworks, or research systems.
+Use for concrete AI products, frameworks, integrated stacks, or research systems.
 
 Required extra fields:
 
@@ -134,7 +154,7 @@ status: active | inactive | research | unknown
 
 #### `evaluation`
 
-Use for benchmarks, rubrics, usability study methods, or quality frameworks for generated interfaces.
+Use for benchmarks, rubrics, decision frameworks, or quality methods across models, agents, and AI-native products.
 
 Required extra fields:
 
@@ -142,26 +162,56 @@ Required extra fields:
 maturity: speculative | emerging | established
 ```
 
+#### `paper-summary`
+
+Use for important academic papers or technical reports that materially improve understanding of fundamentals, model training, evaluation, or frontier techniques. Store these pages under `source-summaries/` unless the literature cluster later becomes large enough to justify a separate directory.
+
+Required extra fields:
+
+```yaml
+authors: []
+venue: ""
+year: YYYY
+status: queued | skimmed | read
+```
+
 ### Extended Tag Taxonomy
 
-- Page types: `pattern`, `system`, `evaluation`
-- UI generation scope: `microinteraction`, `screen-generation`, `multi-screen-flow`, `app-generation`
-- Implementation: `design-system`, `component-library`, `schema-driven-ui`, `runtime-rendering`, `frontend-engineering`
-- Evaluation targets: `task-success`, `visual-quality`, `interaction-quality`, `user-control`, `error-recovery`
+- AI-native software and interfaces: `code-generation`, `workflow-generation`
+- Evidence and tracking: `case-study`, `benchmark`
 
 ### Ingest Rules
 
-When ingesting a Generative UI source, always extract:
+When ingesting an Artificial Intelligence source, always extract:
 
-- What kind of UI is generated or adapted
-- Who initiates the generation: user, model, agent, developer, or system policy
-- The generation substrate: design artifact, declarative schema, component tree, code, browser automation, native UI, or hybrid
-- How user intent is captured and refined
-- How generated UI state is represented and persisted
-- What guardrails constrain the generated interface
-- What evaluation evidence is provided, if any
-- Failure modes: hallucinated controls, unusable layouts, inaccessible UI, slow iteration, security risk, or loss of user agency
-- Relationship to existing concepts, systems, products, or patterns in the wiki
+- What problem the source addresses
+- Which practical lane it belongs to: software engineering, fundamentals, industry trend, or more than one
+- What artifact it is mainly about: concept, method, model, paper, company, person, product, system, or pattern
+- The core mechanism: training setup, inference/runtime behavior, interaction pattern, architecture, or organizational move
+- What evidence exists: tutorial, paper, benchmark, product documentation, interview, release note, anecdote, or commentary
+- Why it matters in practice
+- When to use it, when not to use it, and what alternatives are mentioned
+- Limitations, failure modes, and safety / trust concerns
+- Relationship to existing concepts, systems, companies, people, products, or patterns in the wiki
+
+For fundamentals sources, always extract:
+
+- The learning setup or optimization objective
+- Key assumptions and prerequisites
+- Compute or data requirements if stated
+- How the source affects reasoning about prompt engineering vs retrieval vs tool use vs fine-tuning or training
+
+For software-engineering sources, always extract:
+
+- System boundaries, state / tool interfaces, deployment or runtime model, human-in-the-loop points, developer effort, and productivity implications
+
+For company, person, or trend sources, always extract:
+
+- What changed, when it changed, who is involved, why it matters, and whether the insight looks durable or time-sensitive
+
+When a source is mostly transient news, interviews, or commentary:
+
+- Prefer a `source-summary` or `query-result` first; promote it into an entity, concept, system, or pattern page only if the insight remains important across multiple sources
 
 ## Custom Page Templates
 
@@ -173,7 +223,7 @@ title: Pattern Name
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 type: pattern
-tags: [generative-ui, pattern]
+tags: [artificial-intelligence, pattern]
 sources: []
 contradictions: []
 status: observed
@@ -187,7 +237,7 @@ status: observed
 
 ## Mechanics
 
-## Strengths
+## Benefits
 
 ## Failure Modes
 
@@ -204,7 +254,7 @@ title: System Name
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 type: system
-tags: [generative-ui, system]
+tags: [artificial-intelligence, system]
 sources: []
 contradictions: []
 status: unknown
@@ -214,13 +264,13 @@ status: unknown
 
 ## Overview
 
-## Generative UI Role
+## Why It Matters
 
 ## Architecture Notes
 
-## User Experience
+## Use Cases
 
-## Evaluation
+## Limitations
 
 ## Related
 
@@ -235,7 +285,7 @@ title: Evaluation Name
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 type: evaluation
-tags: [generative-ui, evaluation]
+tags: [artificial-intelligence, evaluation]
 sources: []
 contradictions: []
 maturity: emerging
@@ -247,7 +297,41 @@ maturity: emerging
 
 ## Method
 
-## Applicability
+## When To Use
+
+## Limits
+
+## Related
+
+## Sources
+```
+
+### Paper Summary
+
+```markdown
+---
+title: Paper Title
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+type: paper-summary
+tags: [artificial-intelligence, academic-research, paper]
+sources: []
+contradictions: []
+authors: []
+venue: ""
+year: YYYY
+status: queued
+---
+
+# Paper Title
+
+## Research Question
+
+## Method
+
+## Key Findings
+
+## Practical Relevance
 
 ## Limitations
 
