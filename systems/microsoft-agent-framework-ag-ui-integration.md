@@ -1,10 +1,10 @@
 ---
 title: Microsoft Agent Framework AG-UI Integration
 created: 2026-04-20
-updated: 2026-04-21
+updated: 2026-04-22
 type: system
 tags: [generative-ui, software-agents, framework, runtime-rendering, state-management, tool-use]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md]
 contradictions: []
 status: active
 ---
@@ -34,6 +34,8 @@ The source describes two implementation paths.
 - Backend tools are created with `AIFunctionFactory.Create()`; complex parameter types require serializer options from the app's configured HTTP `JsonOptions`.
 - Package: `Microsoft.Agents.AI.Hosting.AGUI.AspNetCore`.
 - State middleware can read `ag_ui_state`, run a schema-constrained first pass for structured state, emit `STATE_SNAPSHOT` events via JSON `DataContent`, then run a second pass for user-facing summary text.
+- Approval middleware can wrap tools with `ApprovalRequiredAIFunction`, translate `FunctionApprovalRequestContent` into a client-visible approval tool call, then convert the returned decision back into `FunctionApprovalResponseContent`.
+- After approval is resolved, the temporary approval tool call and result must be removed from message history to keep model-provider tool-call sequencing valid.
 
 ### Python path
 
@@ -60,6 +62,8 @@ Users can receive immediate feedback while an agent runs, inspect tool progress,
 
 The state-management tutorial shows that this is not just passive synchronization. Clients can receive optimistic state deltas while the model is still preparing a tool call, then reconcile them with a committed final state. That makes [[shared-ui-state-synchronization]] part of the integration's core Generative UI value, not a side feature.
 
+The approval tutorial shows the integration can also pause autonomy without leaving the protocol. That makes [[human-in-the-loop-tool-approval]] a first-class behavior of the stack rather than an application-specific patch.
+
 The Python client example shows the intended interaction model: `AGUIChatClient` connects to the endpoint, the client keeps a protocol-managed thread, streamed text is printed as it arrives, and tool calls/results are rendered as separate visible events. This is a concrete implementation of [[agent-execution-observability]].
 
 ## Evaluation
@@ -84,6 +88,7 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - [[copilotkit]]
 - [[agent-ui-protocol-bridge]]
 - [[backend-tool-rendering]]
+- [[human-in-the-loop-tool-approval]]
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
 
@@ -93,3 +98,4 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - raw/articles/backend-tool-rendering-with-ag-ui.md
 - raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md
 - raw/articles/state-management-with-ag-ui.md
+- raw/articles/human-in-the-loop-with-ag-ui.md

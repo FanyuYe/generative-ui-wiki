@@ -63,3 +63,12 @@
 - Updated: index.md
 - Updated: log.md
 - Used existing AG-UI wiki pages plus current external documentation to distinguish explicit AG-UI support from Blazor-specific inference.
+
+## [2026-04-22] ingest | Human-in-the-Loop with AG-UI
+- Source: raw/articles/human-in-the-loop-with-ag-ui.md
+- Created: source-summaries/human-in-the-loop-with-ag-ui-summary.md
+- Created: patterns/human-in-the-loop-tool-approval.md
+- Updated: concepts/ag-ui-protocol.md
+- Updated: systems/microsoft-agent-framework-ag-ui-integration.md
+- Updated: index.md
+- Updated: log.md

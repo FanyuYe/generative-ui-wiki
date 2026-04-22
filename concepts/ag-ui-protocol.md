@@ -1,10 +1,10 @@
 ---
 title: AG-UI Protocol
 created: 2026-04-20
-updated: 2026-04-21
+updated: 2026-04-22
 type: concept
 tags: [generative-ui, software-agents, human-computer-interaction, state-management, tool-use, runtime-rendering]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md]
 contradictions: []
 ---
 
@@ -21,6 +21,8 @@ For Generative UI, AG-UI matters because it treats agent execution as an event s
 The source frames AG-UI around seven protocol features: agentic chat, backend tool rendering, human-in-the-loop approvals, agentic generative UI, tool-based generative UI, shared state, and predictive state updates.
 
 The backend tool rendering source makes the tool-call part of the protocol more concrete. AG-UI can stream `TOOL_CALL_START`, `TOOL_CALL_ARGS`, `TOOL_CALL_END`, and `TOOL_CALL_RESULT` events, allowing clients to render server-side tool execution as visible UI state.
+
+The human-in-the-loop tutorial makes the approval path more concrete. Instead of treating approvals as a vague capability, it shows a protocol-mediated loop where the backend converts framework approval requests into a client-visible tool call, the UI collects a decision, and middleware converts that result back into approval content so the run can continue safely.
 
 The state-management tutorial fills in the protocol's state semantics. In the .NET implementation, clients send current state through `ag_ui_state`, the backend constrains the agent to emit structured state, and AG-UI converts JSON `DataContent` into `STATE_SNAPSHOT` events. In the Python implementation, `predict_state_config` enables `STATE_DELTA` events that stream optimistic state changes before the final committed snapshot.
 
@@ -76,6 +78,7 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - [[copilotkit]]
 - [[agent-ui-protocol-bridge]]
 - [[backend-tool-rendering]]
+- [[human-in-the-loop-tool-approval]]
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
 
@@ -85,3 +88,4 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - raw/articles/backend-tool-rendering-with-ag-ui.md
 - raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md
 - raw/articles/state-management-with-ag-ui.md
+- raw/articles/human-in-the-loop-with-ag-ui.md
