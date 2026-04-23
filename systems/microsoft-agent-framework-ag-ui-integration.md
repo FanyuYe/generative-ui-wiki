@@ -1,10 +1,10 @@
 ---
 title: Microsoft Agent Framework AG-UI Integration
 created: 2026-04-20
-updated: 2026-04-22
+updated: 2026-04-23
 type: system
 tags: [generative-ui, software-agents, framework, runtime-rendering, state-management, tool-use]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md]
 contradictions: []
 status: active
 ---
@@ -47,6 +47,10 @@ The source describes two implementation paths.
 - Backend tools are Python functions marked with `@tool`, typed with annotations and `Field` metadata, and attached to the agent before the FastAPI endpoint is registered.
 - Package: `agent-framework-ag-ui --pre`.
 - `state_schema` and `predict_state_config` can map tool arguments into protocol state, producing predictive `STATE_DELTA` events followed by final committed snapshots.
+- `AgentFrameworkWorkflow` can wrap a native `Workflow` or `workflow_factory`, exposing multi-agent orchestration through the same FastAPI AG-UI endpoint surface.
+- Workflow runs emit richer protocol signals such as `STEP_STARTED`, `STEP_FINISHED`, workflow-specific `CUSTOM` events, and `RUN_FINISHED` interrupts that clients can resume.
+
+The workflow tutorial also states a current gap: workflow support for the .NET AG-UI integration is still "coming soon." That makes workflow orchestration a real part of the Agent Framework AG-UI story today, but primarily on the Python path.
 
 An earlier Microsoft Developer Community walkthrough uses a Python `ChatAgent`, an `ai_function`-decorated order lookup tool, `AzureOpenAIChatClient`, and `add_agent_framework_fastapi_endpoint(app, agent, path="/chat")`. The later backend-tool-rendering documentation uses `@tool`; treat the older decorator as source-specific API context rather than the preferred current pattern.
 
@@ -66,6 +70,8 @@ The approval tutorial shows the integration can also pause autonomy without leav
 
 The Python client example shows the intended interaction model: `AGUIChatClient` connects to the endpoint, the client keeps a protocol-managed thread, streamed text is printed as it arrives, and tool calls/results are rendered as separate visible events. This is a concrete implementation of [[agent-execution-observability]].
 
+The workflow tutorial broadens that model. Instead of observing only one agent run, the client can render active workflow steps, pending interrupts, resumable requests for human input, and intermediate workflow outputs. That is the system-level substrate for [[workflow-driven-agent-ui-orchestration]].
+
 ## Evaluation
 
 The source is documentation and does not provide measured evaluation. It does provide a feature-level comparison against direct agent usage, arguing that AG-UI is preferable when applications need remote hosting, multiple clients, SSE streaming, protocol-level state, session or thread context, and built-in approval workflows.
@@ -77,6 +83,7 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - Middleware configuration can become a hidden UX dependency if approvals or state management are inconsistent across agents.
 - Protocol adapters must preserve enough semantic detail from Agent Framework events for frontends to render trustworthy UI.
 - Python and .NET behavior may diverge if package maturity or supported features differ.
+- Workflow features can be assumed to exist on .NET because the broader AG-UI integration supports .NET, even though the current workflow tutorial explicitly limits workflow coverage to Python.
 - Direct agent usage may remain simpler for single-client tools where remote hosting and protocol state are unnecessary.
 - Tool registration can fail at runtime if complex parameter serialization is not aligned with the hosting application's JSON configuration.
 - Development-friendly Azure credential flows can create production latency or security issues if copied without narrowing credential behavior.
@@ -91,6 +98,7 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - [[human-in-the-loop-tool-approval]]
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
+- [[workflow-driven-agent-ui-orchestration]]
 
 ## Sources
 
@@ -99,3 +107,4 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md
 - raw/articles/state-management-with-ag-ui.md
 - raw/articles/human-in-the-loop-with-ag-ui.md
+- raw/articles/workflows-with-ag-ui.md

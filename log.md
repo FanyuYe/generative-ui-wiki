@@ -72,3 +72,13 @@
 - Updated: systems/microsoft-agent-framework-ag-ui-integration.md
 - Updated: index.md
 - Updated: log.md
+
+## [2026-04-23] ingest | Workflows with AG-UI
+- Source: raw/articles/workflows-with-ag-ui.md
+- Created: source-summaries/workflows-with-ag-ui-summary.md
+- Created: patterns/workflow-driven-agent-ui-orchestration.md
+- Updated: concepts/ag-ui-protocol.md
+- Updated: concepts/agent-execution-observability.md
+- Updated: systems/microsoft-agent-framework-ag-ui-integration.md
+- Updated: index.md
+- Updated: log.md

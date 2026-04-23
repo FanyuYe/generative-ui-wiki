@@ -1,10 +1,10 @@
 ---
 title: AG-UI Protocol
 created: 2026-04-20
-updated: 2026-04-22
+updated: 2026-04-23
 type: concept
 tags: [generative-ui, software-agents, human-computer-interaction, state-management, tool-use, runtime-rendering]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md]
 contradictions: []
 ---
 
@@ -28,6 +28,8 @@ The state-management tutorial fills in the protocol's state semantics. In the .N
 
 The Microsoft Developer Community article explains the protocol's origin as a response to fragmented agent UI communication. It contrasts simple request/response, custom streaming, and standardized protocol stages, then positions AG-UI as the standardized stage that gives clients [[agent-execution-observability]] across compliant frameworks.
 
+The workflow tutorial extends the protocol from single-agent runs to graph-shaped execution. It adds explicit step boundaries such as `STEP_STARTED` and `STEP_FINISHED`, plus `CUSTOM` events for workflow state, human-input requests, and intermediate outputs. It also makes interrupts and resume payloads part of the protocol contract for long-running multi-agent flows.
+
 The protocol replaces ad hoc application-managed concerns with standard equivalents:
 
 | Concern | Direct agent usage | AG-UI role |
@@ -44,6 +46,7 @@ Design rationale from the article:
 - Server-Sent Events fit many agent UIs because the dominant flow is server-to-client updates over standard HTTP.
 - Protocol-managed threads reduce fragile client-side conversation-history management.
 - Standard event types let UIs react to execution without custom text parsing.
+- Workflow-aware events make multi-step progress, pausing, and resumption renderable without inventing a separate frontend state channel.
 
 ## Practical Implications for Generative UI
 
@@ -58,6 +61,7 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 ## Failure Modes
 
 - Event streams can expose partial progress that users misinterpret as final state.
+- Step and custom workflow events can overexpose backend process detail if the UI lacks a clear abstraction layer.
 - Predictive state updates can create optimism gaps if later tool execution disagrees with streamed arguments.
 - Shared state can diverge if frontend and backend state models are not carefully versioned.
 - Custom UI components can overfit to one agent framework unless the AG-UI contract remains stable.
@@ -81,6 +85,7 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - [[human-in-the-loop-tool-approval]]
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
+- [[workflow-driven-agent-ui-orchestration]]
 
 ## Sources
 
@@ -89,3 +94,4 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md
 - raw/articles/state-management-with-ag-ui.md
 - raw/articles/human-in-the-loop-with-ag-ui.md
+- raw/articles/workflows-with-ag-ui.md
