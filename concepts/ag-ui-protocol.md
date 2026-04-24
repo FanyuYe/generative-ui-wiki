@@ -1,10 +1,10 @@
 ---
 title: AG-UI Protocol
 created: 2026-04-20
-updated: 2026-04-23
+updated: 2026-04-24
 type: concept
 tags: [generative-ui, software-agents, human-computer-interaction, state-management, tool-use, runtime-rendering]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md]
 contradictions: []
 ---
 
@@ -21,6 +21,8 @@ For Generative UI, AG-UI matters because it treats agent execution as an event s
 The source frames AG-UI around seven protocol features: agentic chat, backend tool rendering, human-in-the-loop approvals, agentic generative UI, tool-based generative UI, shared state, and predictive state updates.
 
 The backend tool rendering source makes the tool-call part of the protocol more concrete. AG-UI can stream `TOOL_CALL_START`, `TOOL_CALL_ARGS`, `TOOL_CALL_END`, and `TOOL_CALL_RESULT` events, allowing clients to render server-side tool execution as visible UI state.
+
+The frontend tool rendering tutorial fills in the opposite direction of the protocol. Instead of only showing backend work to the client, AG-UI can also carry client-declared tool metadata to the server, let the model request local execution, and route the result back into the run. That makes the protocol a two-way capability surface, not just a streaming output channel.
 
 The human-in-the-loop tutorial makes the approval path more concrete. Instead of treating approvals as a vague capability, it shows a protocol-mediated loop where the backend converts framework approval requests into a client-visible tool call, the UI collects a decision, and middleware converts that result back into approval content so the run can continue safely.
 
@@ -56,6 +58,8 @@ This makes AG-UI a useful substrate for [[agent-ui-protocol-bridge|agent-UI prot
 
 [[backend-tool-rendering]] shows how this works at the tool layer: the backend owns the tool implementation, while the frontend receives enough structured event data to show progress, arguments, results, and errors.
 
+[[frontend-tool-rendering]] shows the complementary direction: the frontend can expose typed local affordances such as location, preferences, or UI operations, while the backend agent remains the orchestrator that chooses when those capabilities are used.
+
 Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-step workflows that benefit from visible progress, and teams seeking framework flexibility. Simpler request/response agents, stable legacy systems, or mission-critical deployments that cannot tolerate evolving standards may be better served by alternatives.
 
 ## Failure Modes
@@ -82,6 +86,7 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - [[copilotkit]]
 - [[agent-ui-protocol-bridge]]
 - [[backend-tool-rendering]]
+- [[frontend-tool-rendering]]
 - [[human-in-the-loop-tool-approval]]
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]

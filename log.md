@@ -82,3 +82,12 @@
 - Updated: systems/microsoft-agent-framework-ag-ui-integration.md
 - Updated: index.md
 - Updated: log.md
+
+## [2026-04-24] ingest | Frontend Tool Rendering with AG-UI
+- Source: raw/articles/frontend-tool-rendering-with-ag-ui.md
+- Created: source-summaries/frontend-tool-rendering-with-ag-ui-summary.md
+- Created: patterns/frontend-tool-rendering.md
+- Updated: concepts/ag-ui-protocol.md
+- Updated: systems/microsoft-agent-framework-ag-ui-integration.md
+- Updated: index.md
+- Updated: log.md

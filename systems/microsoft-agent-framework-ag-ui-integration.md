@@ -1,10 +1,10 @@
 ---
 title: Microsoft Agent Framework AG-UI Integration
 created: 2026-04-20
-updated: 2026-04-23
+updated: 2026-04-24
 type: system
 tags: [generative-ui, software-agents, framework, runtime-rendering, state-management, tool-use]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md]
 contradictions: []
 status: active
 ---
@@ -60,6 +60,14 @@ The backend tool rendering tutorial shows the integration's server-side tool pat
 
 This makes [[backend-tool-rendering]] one of the clearest concrete Generative UI use cases for the integration.
 
+### Frontend tool rendering
+
+The frontend tool rendering tutorial shows the matching client-side tool path. Developers register local tools on the client, AG-UI forwards their metadata to the server, the model requests execution when needed, and the client returns structured results back into the run.
+
+In .NET, the client uses `AIFunctionFactory.Create()` plus `AsAIAgent(..., tools: ...)`, and `AGUIChatClient` forwards the resulting metadata through `ChatAgentRunOptions.ChatOptions.Tools`. The source also shows middleware inspecting those tool declarations before execution, which makes client tool exposure a governable part of the stack.
+
+This makes [[frontend-tool-rendering]] another first-class Generative UI behavior of the system, especially for location, sensor, preference, or UI-local actions that do not belong on the server.
+
 ## User Experience
 
 Users can receive immediate feedback while an agent runs, inspect tool progress, approve sensitive actions, and see interface state synchronize with backend execution. With [[copilotkit]], a React frontend can register the endpoint as an `HttpAgent` and use AG-UI features without implementing a custom protocol client from scratch.
@@ -69,6 +77,8 @@ The state-management tutorial shows that this is not just passive synchronizatio
 The approval tutorial shows the integration can also pause autonomy without leaving the protocol. That makes [[human-in-the-loop-tool-approval]] a first-class behavior of the stack rather than an application-specific patch.
 
 The Python client example shows the intended interaction model: `AGUIChatClient` connects to the endpoint, the client keeps a protocol-managed thread, streamed text is printed as it arrives, and tool calls/results are rendered as separate visible events. This is a concrete implementation of [[agent-execution-observability]].
+
+The frontend-tool tutorial extends that interaction model by giving the client an active role in capability execution. The UI can provide local functions, execute them on request, and send structured results back without turning the backend into a proxy for every device-local action.
 
 The workflow tutorial broadens that model. Instead of observing only one agent run, the client can render active workflow steps, pending interrupts, resumable requests for human input, and intermediate workflow outputs. That is the system-level substrate for [[workflow-driven-agent-ui-orchestration]].
 
@@ -95,6 +105,7 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - [[copilotkit]]
 - [[agent-ui-protocol-bridge]]
 - [[backend-tool-rendering]]
+- [[frontend-tool-rendering]]
 - [[human-in-the-loop-tool-approval]]
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
@@ -108,3 +119,4 @@ The Tech Community article adds adoption guidance rather than metrics: the integ
 - raw/articles/state-management-with-ag-ui.md
 - raw/articles/human-in-the-loop-with-ag-ui.md
 - raw/articles/workflows-with-ag-ui.md
+- raw/articles/frontend-tool-rendering-with-ag-ui.md
