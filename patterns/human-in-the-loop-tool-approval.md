@@ -1,10 +1,10 @@
 ---
 title: Human-in-the-Loop Tool Approval
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 type: pattern
 tags: [generative-ui, pattern, software-agents, tool-use, safety, human-computer-interaction]
-sources: [raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/state-management-with-ag-ui.md]
+sources: [raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md]
 contradictions: []
 status: observed
 ---
@@ -35,6 +35,8 @@ In the Microsoft Agent Framework .NET implementation, this is driven by `Approva
 
 This pattern often composes with [[backend-tool-rendering]] and [[shared-ui-state-synchronization]]: the UI can show what the tool intends to do, preview partial state, and only commit the operation after confirmation.
 
+In multi-agent handoff workflows, approval becomes one class of interrupt alongside information requests. The UI may need to queue approvals, preserve the active-agent context, and show enough case state for the user to decide whether a sensitive action is safe.
+
 ## Strengths
 
 - Prevents silent execution of sensitive agent actions.
@@ -58,9 +60,11 @@ This pattern often composes with [[backend-tool-rendering]] and [[shared-ui-stat
 - [[backend-tool-rendering]]
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
+- [[multi-agent-handoff-ui-orchestration]]
 
 ## Sources
 
 - raw/articles/human-in-the-loop-with-ag-ui.md
 - raw/articles/ag-ui-integration-with-agent-framework.md
 - raw/articles/state-management-with-ag-ui.md
+- raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md

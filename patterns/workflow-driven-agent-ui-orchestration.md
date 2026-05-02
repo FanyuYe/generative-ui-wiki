@@ -1,10 +1,10 @@
 ---
 title: Workflow-Driven Agent UI Orchestration
 created: 2026-04-23
-updated: 2026-04-23
+updated: 2026-04-30
 type: pattern
 tags: [generative-ui, pattern, software-agents, runtime-rendering, observability, human-computer-interaction]
-sources: [raw/articles/workflows-with-ag-ui.md]
+sources: [raw/articles/workflows-with-ag-ui.md, raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md]
 contradictions: []
 status: observed
 ---
@@ -30,6 +30,8 @@ This pattern appears when a single agent is not enough and the backend needs exp
 
 This pattern differs from simple streaming chat because the interface is tracking execution structure, not only token flow.
 
+The Microsoft Agent Framework handoff demo adds a more specialized variant: [[multi-agent-handoff-ui-orchestration]]. In that variant, the workflow is not just stepwise; it has named specialist agents, a declared handoff topology, active-agent status, case-state updates, and queued interrupts for approvals or missing information.
+
 ## Strengths
 
 - Makes multi-agent execution legible instead of opaque.
@@ -45,6 +47,7 @@ This pattern differs from simple streaming chat because the interface is trackin
 - Long-lived workflows need careful state isolation so one thread does not leak into another.
 - Python-first examples can be copied into .NET assumptions that are not yet supported.
 - Interrupt-heavy flows can feel stalled if the UI does not clearly explain what action is needed.
+- Handoff graphs can leak too much orchestration detail if the UI shows backend topology instead of user-relevant ownership and next action.
 
 ## Related
 
@@ -52,8 +55,10 @@ This pattern differs from simple streaming chat because the interface is trackin
 - [[agent-execution-observability]]
 - [[agent-ui-protocol-bridge]]
 - [[human-in-the-loop-tool-approval]]
+- [[multi-agent-handoff-ui-orchestration]]
 - [[microsoft-agent-framework-ag-ui-integration]]
 
 ## Sources
 
 - raw/articles/workflows-with-ag-ui.md
+- raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md

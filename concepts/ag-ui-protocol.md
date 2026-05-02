@@ -1,10 +1,10 @@
 ---
 title: AG-UI Protocol
 created: 2026-04-20
-updated: 2026-04-24
+updated: 2026-05-02
 type: concept
 tags: [generative-ui, software-agents, human-computer-interaction, state-management, tool-use, runtime-rendering]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md, raw/articles/security-considerations-for-ag-ui.md, raw/articles/testing-with-ag-ui-dojo.md, raw/articles/mcp-apps-compatibility-with-ag-ui.md, raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md, raw/articles/ag-ui-generative-ui-specs.md]
 contradictions: []
 ---
 
@@ -32,6 +32,16 @@ The Microsoft Developer Community article explains the protocol's origin as a re
 
 The workflow tutorial extends the protocol from single-agent runs to graph-shaped execution. It adds explicit step boundaries such as `STEP_STARTED` and `STEP_FINISHED`, plus `CUSTOM` events for workflow state, human-input requests, and intermediate outputs. It also makes interrupts and resume payloads part of the protocol contract for long-running multi-agent flows.
 
+The Microsoft Agent Framework handoff demo makes that graph-shaped execution more product-visible. It shows a triage/refund/order agent workflow where a declared handoff topology, active-agent indicators, case snapshots, approval modals, and queued information requests all ride on the AG-UI event and interrupt model. This is the basis for [[multi-agent-handoff-ui-orchestration]].
+
+The security guidance adds an important constraint to the protocol story. Because AG-UI clients can send not only user text but also structured messages, tools, state, context, and forwarded properties, the protocol boundary is also a security boundary. The recommended architecture is to keep end users behind a [[trusted-frontend-mediation-for-ag-ui|trusted frontend mediator]] rather than exposing the AG-UI server directly to untrusted browser or mobile clients.
+
+The Dojo testing guide makes the protocol more operational. Instead of treating the seven AG-UI features as abstract capabilities, it turns them into a visible test surface with one endpoint per feature. That gives the protocol a concrete evaluation path through [[ag-ui-feature-coverage-testing]], even if the current documented harness is centered on the Python integration.
+
+The MCP Apps compatibility page adds a composition case around the protocol. Agent Framework Python AG-UI endpoints can remain ordinary AG-UI backends while a TypeScript `MCPAppsMiddleware` layer in CopilotKit Runtime or a Node.js proxy handles MCP tool discovery, iframe resource proxying, and `ui/resourceUri` resolution. That makes [[mcp-apps-middleware-bridge]] a separate frontend/runtime bridge rather than a backend protocol extension.
+
+The AG-UI Generative UI specs page clarifies the protocol's layer boundary. A2UI, Open-JSON-UI, and MCP-UI are [[generative-ui-specifications|generative UI specifications]] that describe dynamic UI payloads or surfaces. AG-UI is the bidirectional runtime protocol that connects the agent, application, and user, and can support those specs or custom standards rather than replacing them.
+
 The protocol replaces ad hoc application-managed concerns with standard equivalents:
 
 | Concern | Direct agent usage | AG-UI role |
@@ -49,6 +59,10 @@ Design rationale from the article:
 - Protocol-managed threads reduce fragile client-side conversation-history management.
 - Standard event types let UIs react to execution without custom text parsing.
 - Workflow-aware events make multi-step progress, pausing, and resumption renderable without inventing a separate frontend state channel.
+- Handoff-aware UIs can make agent ownership and sensitive pending actions visible without leaving the protocol stream.
+- Richer protocol fields improve UI capability but widen the prompt-injection and data-exposure surface unless trusted code constructs and filters them.
+- MCP Apps can be composed around an AG-UI endpoint without changing the backend, but the middleware/proxy layer becomes an important resource and tool boundary.
+- Generated UI specifications are adjacent payload formats, while AG-UI remains the interaction protocol underneath them.
 
 ## Practical Implications for Generative UI
 
@@ -56,9 +70,15 @@ AG-UI pushes generated interfaces toward an explicit protocol boundary. Instead 
 
 This makes AG-UI a useful substrate for [[agent-ui-protocol-bridge|agent-UI protocol bridges]], where framework-specific agent execution is translated into frontend-friendly events. It also makes protocols and adapters part of the Generative UI architecture, alongside prompt design, component generation, and [[shared-ui-state-synchronization]].
 
+The generated-UI-spec distinction sharpens this architecture. AG-UI can carry the interaction loop, while A2UI, Open-JSON-UI, MCP-UI, or a custom schema can define what a dynamic UI payload looks like. That gives developers a layered design choice instead of forcing one protocol to solve transport, state, tools, and generated component representation at once.
+
 [[backend-tool-rendering]] shows how this works at the tool layer: the backend owns the tool implementation, while the frontend receives enough structured event data to show progress, arguments, results, and errors.
 
 [[frontend-tool-rendering]] shows the complementary direction: the frontend can expose typed local affordances such as location, preferences, or UI operations, while the backend agent remains the orchestrator that chooses when those capabilities are used.
+
+The security tutorial sharpens that boundary: frontend tools, shared state, and rendered tool results should not be treated as neutral transport details. They are policy surfaces that need validation, authorization, and redaction if the client is not fully trusted.
+
+The MCP Apps tutorial adds a related but distinct boundary. MCP-powered tools and resources may be introduced in a TypeScript runtime layer while the backend stays unaware, so teams need to reason about the AG-UI endpoint, the middleware, and the MCP app resource surface together.
 
 Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-step workflows that benefit from visible progress, and teams seeking framework flexibility. Simpler request/response agents, stable legacy systems, or mission-critical deployments that cannot tolerate evolving standards may be better served by alternatives.
 
@@ -71,14 +91,21 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - Custom UI components can overfit to one agent framework unless the AG-UI contract remains stable.
 - Approval flows can protect users but may slow down otherwise fluid interactions.
 - Tool-call argument and result streams can expose sensitive data if the UI renders them without redaction or summarization.
+- Directly exposing an AG-UI endpoint to untrusted clients can let attackers inject hidden instructions through messages, state, tools, context, or forwarded properties.
+- Treating MCP Apps middleware as invisible plumbing can hide authorization, iframe proxying, and resource-resolution risks from backend developers.
+- Multi-agent handoff UIs can confuse users if active-agent state and pending interrupts are surfaced as raw backend mechanics rather than task-level explanations.
 - A young protocol can introduce migration or compatibility risk for teams that need long-term stability.
+- Teams can misapply AG-UI if they treat it as the generated UI schema instead of the runtime protocol that can coordinate separate UI specifications.
 
 ## Open Questions
 
 - Which AG-UI event patterns produce the clearest user mental model for long-running agents?
 - How should AG-UI clients reconcile optimistic state updates with corrected backend state?
-- What test harnesses are needed for protocol-level UI behavior, not just backend agent correctness?
+- How should [[ag-ui-feature-coverage-testing]] evolve from interactive exploration into stronger conformance and regression testing?
 - How should clients degrade gracefully if a backend supports only part of the event vocabulary?
+- How should MCP Apps middleware behavior be tested alongside AG-UI endpoint behavior when the backend is intentionally unaware of the MCP layer?
+- What is the right abstraction level for showing handoff graphs and active-agent ownership to non-developer users?
+- How should AG-UI clients advertise support for specific [[generative-ui-specifications]] such as A2UI, Open-JSON-UI, MCP-UI, or custom schemas?
 
 ## Related
 
@@ -91,6 +118,11 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - [[shared-ui-state-synchronization]]
 - [[agent-execution-observability]]
 - [[workflow-driven-agent-ui-orchestration]]
+- [[multi-agent-handoff-ui-orchestration]]
+- [[trusted-frontend-mediation-for-ag-ui]]
+- [[ag-ui-feature-coverage-testing]]
+- [[mcp-apps-middleware-bridge]]
+- [[generative-ui-specifications]]
 
 ## Sources
 
@@ -100,3 +132,9 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - raw/articles/state-management-with-ag-ui.md
 - raw/articles/human-in-the-loop-with-ag-ui.md
 - raw/articles/workflows-with-ag-ui.md
+- raw/articles/frontend-tool-rendering-with-ag-ui.md
+- raw/articles/security-considerations-for-ag-ui.md
+- raw/articles/testing-with-ag-ui-dojo.md
+- raw/articles/mcp-apps-compatibility-with-ag-ui.md
+- raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md
+- raw/articles/ag-ui-generative-ui-specs.md
