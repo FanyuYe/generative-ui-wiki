@@ -1,10 +1,10 @@
 ---
 title: Generative UI Specifications
 created: 2026-05-02
-updated: 2026-05-02
+updated: 2026-05-03
 type: concept
 tags: [generative-ui, human-computer-interaction, runtime-rendering, adaptive-ui, software-agents]
-sources: [raw/articles/ag-ui-generative-ui-specs.md]
+sources: [raw/articles/ag-ui-generative-ui-specs.md, raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md]
 contradictions: []
 ---
 
@@ -22,7 +22,7 @@ The source identifies three specification families:
 
 | Specification | Maintainer or origin | Role |
 | --- | --- | --- |
-| A2UI | Google | Declarative, LLM-friendly, JSONL-based, streaming, and platform-agnostic rendering. |
+| [[a2ui-protocol|A2UI]] | Google | Declarative, LLM-friendly, JSONL-based, streaming, and platform-agnostic rendering. |
 | Open-JSON-UI | OpenAI | Open standardization of an internal declarative UI schema. |
 | MCP-UI | Microsoft + Shopify | Iframe-based MCP extension for user-facing experiences. |
 
@@ -34,13 +34,15 @@ This taxonomy helps separate three architectural questions:
 
 AG-UI sits primarily in the first question. A2UI, Open-JSON-UI, MCP-UI, or custom standards sit primarily in the second. Rendering policy, validation, sandboxing, and component mapping sit in the third.
 
+The Google A2UI v0.9 announcement turns the A2UI row into a concrete architecture direction. It emphasizes custom catalogs, client-defined functions, client-to-server data syncing, validation and repair of generated JSON, and transport flexibility across MCP, WebSockets, REST, AG-UI, and A2A. The important production lesson is that a generated UI spec should let agents express UI intent while the trusted application keeps control of the actual component catalog and renderer.
+
 ## Practical Implications for Generative UI
 
 The distinction helps teams avoid treating Generative UI as one implementation style. A system can use [[frontend-tool-rendering]] or [[backend-tool-rendering]] for controlled UI, [[shared-ui-state-synchronization]] for application state, and a separate spec when the agent needs to return a richer structured interface.
 
 It also clarifies why [[mcp-apps-middleware-bridge]] is an integration pattern rather than a complete theory of generated UI. MCP-powered resources can be composed around an AG-UI backend, but MCP-UI as a generated UI specification still needs renderer, sandbox, authorization, and user-session boundaries.
 
-For .NET-oriented AG-UI work, this is a planning signal rather than a direct implementation guide. The current source does not provide .NET examples or package guidance for rendering A2UI, Open-JSON-UI, or MCP-UI payloads.
+For .NET-oriented AG-UI work, this is a planning signal rather than a direct implementation guide. The current sources do not provide .NET examples or package guidance for rendering A2UI, Open-JSON-UI, or MCP-UI payloads. A2UI v0.9 is currently more concrete on Python agent SDK examples and web/mobile renderer ecosystems than on ASP.NET Core or Blazor integration.
 
 ## Failure Modes
 
@@ -49,6 +51,7 @@ For .NET-oriented AG-UI work, this is a planning signal rather than a direct imp
 - Iframe-based UI can isolate execution but still create resource, session, and authorization risks.
 - Custom generated UI standards can fragment a product unless the application owns compatibility and migration rules.
 - Current spec support may differ across TypeScript, Python, .NET, and other stacks.
+- Draft generated UI schemas can shift faster than application renderers and component catalogs can safely migrate.
 
 ## Open Questions
 
@@ -59,6 +62,7 @@ For .NET-oriented AG-UI work, this is a planning signal rather than a direct imp
 ## Related
 
 - [[ag-ui-protocol]]
+- [[a2ui-protocol]]
 - [[frontend-tool-rendering]]
 - [[backend-tool-rendering]]
 - [[shared-ui-state-synchronization]]
@@ -69,3 +73,4 @@ For .NET-oriented AG-UI work, this is a planning signal rather than a direct imp
 ## Sources
 
 - raw/articles/ag-ui-generative-ui-specs.md
+- raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md

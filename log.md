@@ -185,3 +185,14 @@
 - Updated: index.md
 - Updated: log.md
 - Filed the architecture answer for a warehouse control system dashboard that uses AG-UI as the runtime protocol, Blazor as a controlled renderer, backend tools for operational facts, and a constrained WCS widget schema for dynamic charts and data grids.
+
+## [2026-05-03] ingest | A2UI v0.9 Portable Framework-Agnostic Generative UI
+- Source: raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md
+- Assets: raw/assets/a2ui-v0-9-portable-framework-agnostic-generative-ui/
+- Created: source-summaries/a2ui-v0-9-portable-framework-agnostic-generative-ui-summary.md
+- Created: concepts/a2ui-protocol.md
+- Updated: concepts/generative-ui-specifications.md
+- Updated: concepts/ag-ui-protocol.md
+- Updated: index.md
+- Updated: log.md
+- Captured the Google Developers Blog A2UI v0.9 announcement and article visual assets, then compiled A2UI as a concrete generated-UI specification layer that can work alongside AG-UI rather than replacing it.

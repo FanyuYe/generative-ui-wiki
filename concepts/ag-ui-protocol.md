@@ -1,10 +1,10 @@
 ---
 title: AG-UI Protocol
 created: 2026-04-20
-updated: 2026-05-02
+updated: 2026-05-03
 type: concept
 tags: [generative-ui, software-agents, human-computer-interaction, state-management, tool-use, runtime-rendering]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md, raw/articles/security-considerations-for-ag-ui.md, raw/articles/testing-with-ag-ui-dojo.md, raw/articles/mcp-apps-compatibility-with-ag-ui.md, raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md, raw/articles/ag-ui-generative-ui-specs.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework.md, raw/articles/state-management-with-ag-ui.md, raw/articles/human-in-the-loop-with-ag-ui.md, raw/articles/workflows-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md, raw/articles/security-considerations-for-ag-ui.md, raw/articles/testing-with-ag-ui-dojo.md, raw/articles/mcp-apps-compatibility-with-ag-ui.md, raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md, raw/articles/ag-ui-generative-ui-specs.md, raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md]
 contradictions: []
 ---
 
@@ -42,6 +42,8 @@ The MCP Apps compatibility page adds a composition case around the protocol. Age
 
 The AG-UI Generative UI specs page clarifies the protocol's layer boundary. A2UI, Open-JSON-UI, and MCP-UI are [[generative-ui-specifications|generative UI specifications]] that describe dynamic UI payloads or surfaces. AG-UI is the bidirectional runtime protocol that connects the agent, application, and user, and can support those specs or custom standards rather than replacing them.
 
+The Google A2UI v0.9 announcement adds a more concrete composition path. It says agents already speaking AG-UI can drive [[a2ui-protocol|A2UI]] through middleware, with AG-UI carrying the interaction/runtime path and A2UI describing the generated UI surface that a trusted renderer turns into components.
+
 The protocol replaces ad hoc application-managed concerns with standard equivalents:
 
 | Concern | Direct agent usage | AG-UI role |
@@ -63,6 +65,7 @@ Design rationale from the article:
 - Richer protocol fields improve UI capability but widen the prompt-injection and data-exposure surface unless trusted code constructs and filters them.
 - MCP Apps can be composed around an AG-UI endpoint without changing the backend, but the middleware/proxy layer becomes an important resource and tool boundary.
 - Generated UI specifications are adjacent payload formats, while AG-UI remains the interaction protocol underneath them.
+- A2UI can be layered on top of AG-UI when an application needs declarative generated UI while keeping the runtime connection, agent state, and user actions in an AG-UI-compatible flow.
 
 ## Practical Implications for Generative UI
 
@@ -70,7 +73,7 @@ AG-UI pushes generated interfaces toward an explicit protocol boundary. Instead 
 
 This makes AG-UI a useful substrate for [[agent-ui-protocol-bridge|agent-UI protocol bridges]], where framework-specific agent execution is translated into frontend-friendly events. It also makes protocols and adapters part of the Generative UI architecture, alongside prompt design, component generation, and [[shared-ui-state-synchronization]].
 
-The generated-UI-spec distinction sharpens this architecture. AG-UI can carry the interaction loop, while A2UI, Open-JSON-UI, MCP-UI, or a custom schema can define what a dynamic UI payload looks like. That gives developers a layered design choice instead of forcing one protocol to solve transport, state, tools, and generated component representation at once.
+The generated-UI-spec distinction sharpens this architecture. AG-UI can carry the interaction loop, while [[a2ui-protocol|A2UI]], Open-JSON-UI, MCP-UI, or a custom schema can define what a dynamic UI payload looks like. That gives developers a layered design choice instead of forcing one protocol to solve transport, state, tools, and generated component representation at once.
 
 [[backend-tool-rendering]] shows how this works at the tool layer: the backend owns the tool implementation, while the frontend receives enough structured event data to show progress, arguments, results, and errors.
 
@@ -111,6 +114,7 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 
 - [[microsoft-agent-framework-ag-ui-integration]]
 - [[copilotkit]]
+- [[a2ui-protocol]]
 - [[agent-ui-protocol-bridge]]
 - [[backend-tool-rendering]]
 - [[frontend-tool-rendering]]
@@ -138,3 +142,4 @@ Adoption guidance is context-dependent. AG-UI fits new agent projects, multi-ste
 - raw/articles/mcp-apps-compatibility-with-ag-ui.md
 - raw/articles/real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows.md
 - raw/articles/ag-ui-generative-ui-specs.md
+- raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md

@@ -2,10 +2,11 @@
 
 > Content catalog. Every wiki page listed under its type with a one-line summary.
 > Read this first to find relevant pages for any query.
-> Last updated: 2026-05-02 | Total pages: 36
+> Last updated: 2026-05-03 | Total pages: 38
 
 ## Source Summaries
 <!-- Alphabetical within section. Format: - [[page-name]] — one-line summary -->
+- [[a2ui-v0-9-portable-framework-agnostic-generative-ui-summary|A2UI v0.9 Portable Framework-Agnostic Generative UI]] — Google Developers Blog announcement of A2UI v0.9 as a catalog-driven generated UI specification that can ride over AG-UI, MCP, WebSockets, REST, or A2A.
 - [[ag-ui-integration-with-agent-framework-summary|AG-UI Integration with Agent Framework]] — Microsoft Learn overview of AG-UI integration for Agent Framework across .NET, Python, and CopilotKit frontends.
 - [[ag-ui-generative-ui-specs-summary|Generative UI - Agent User Interaction Protocol]] — AG-UI documentation clarifying A2UI, Open-JSON-UI, and MCP-UI as generated UI specs while AG-UI remains the runtime interaction protocol.
 - [[backend-tool-rendering-with-ag-ui-summary|Backend Tool Rendering with AG-UI]] — Microsoft Learn tutorial on server-side function tools whose calls and results stream to AG-UI clients.
@@ -31,6 +32,7 @@
 ## Concepts
 <!-- Topics, techniques, theories, ideas -->
 - [[ag-ui-protocol]] — Standardized event protocol for connecting AI agents to streaming, stateful, interactive user interfaces.
+- [[a2ui-protocol]] — Google declarative generated UI specification for catalog-constrained, streaming agent-authored interfaces across renderers and transports.
 - [[agent-execution-observability]] — Ability for generated agent UIs to expose run, text, tool, error, and completion state as visible interface feedback.
 - [[generative-ui-specifications]] — Layering concept distinguishing generated UI payload specifications such as A2UI, Open-JSON-UI, and MCP-UI from runtime interaction protocols such as AG-UI.
 - [[shared-ui-state-synchronization]] — Concept for keeping structured UI state aligned between agent backend and client through snapshots and predictive deltas.
