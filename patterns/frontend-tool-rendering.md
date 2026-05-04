@@ -1,10 +1,10 @@
 ---
 title: Frontend Tool Rendering
 created: 2026-04-24
-updated: 2026-04-24
+updated: 2026-05-04
 type: pattern
 tags: [generative-ui, pattern, software-agents, tool-use, runtime-rendering, human-computer-interaction]
-sources: [raw/articles/frontend-tool-rendering-with-ag-ui.md]
+sources: [raw/articles/frontend-tool-rendering-with-ag-ui.md, raw/articles/copilotkit-generative-ui-for-agentic-apps.md]
 contradictions: []
 status: observed
 ---
@@ -32,6 +32,8 @@ It is a complement to [[backend-tool-rendering]]. Backend tools centralize trust
 
 In the .NET path, tools are created with `AIFunctionFactory.Create()` and attached through `AsAIAgent()`. In the Python example, the client sends explicit tool declarations and handles `TOOL_CALL_REQUEST` plus result submission in its own loop. The key boundary is stable across both: the server orchestrates, the client executes.
 
+The CopilotKit Generative UI showcase gives the same pattern a React-specific expression with `useFrontendTool`. The application registers a named tool, parameter schema, handler, and render function. The agent chooses when to invoke the tool, while the frontend owns the component states such as loading, executing, completed, or error rendering. In the [[generative-ui-control-spectrum]], this is the controlled Generative UI end: high developer control with low agent freedom over layout.
+
 ## Strengths
 
 - Gives the agent access to device-local and UI-local capabilities without moving them onto the server.
@@ -47,6 +49,7 @@ In the .NET path, tools are created with `AIFunctionFactory.Create()` and attach
 - Client and server implementations can drift on argument or result shape.
 - Tool execution failures can look like model failure if the UI does not distinguish them clearly.
 - Overusing local tools can make the interface feel unpredictable or overprivileged.
+- Treating controlled Generative UI as "the agent generates the component" can blur the boundary; in this pattern, the agent selects and fills a developer-owned component.
 
 ## Related
 
@@ -54,7 +57,9 @@ In the .NET path, tools are created with `AIFunctionFactory.Create()` and attach
 - [[microsoft-agent-framework-ag-ui-integration]]
 - [[backend-tool-rendering]]
 - [[agent-execution-observability]]
+- [[generative-ui-control-spectrum]]
 
 ## Sources
 
 - raw/articles/frontend-tool-rendering-with-ag-ui.md
+- raw/articles/copilotkit-generative-ui-for-agentic-apps.md

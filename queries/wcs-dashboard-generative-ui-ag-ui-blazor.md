@@ -1,10 +1,10 @@
 ---
 title: WCS Dashboard Generative UI with AG-UI and Blazor
 created: 2026-05-02
-updated: 2026-05-02
+updated: 2026-05-04
 type: query-result
 tags: [artificial-intelligence, generative-ui, software-agents, software-engineering, applications, runtime-rendering, state-management, tool-use, trust]
-sources: [raw/articles/ag-ui-generative-ui-specs.md, raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md, raw/articles/state-management-with-ag-ui.md, raw/articles/security-considerations-for-ag-ui.md]
+sources: [raw/articles/ag-ui-generative-ui-specs.md, raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/backend-tool-rendering-with-ag-ui.md, raw/articles/frontend-tool-rendering-with-ag-ui.md, raw/articles/state-management-with-ag-ui.md, raw/articles/security-considerations-for-ag-ui.md, raw/transcripts/wcs-dashboard-ag-ui-widget-state-event-session-2026-05-04.md]
 contradictions: []
 query: Considering generative UI specification choices using AG-UI and a .NET frontend stack such as Blazor, how should a warehouse control system dashboard dynamically render charts and data grids in response to user questions such as "What is today's picking rate and any major issues?"
 ---
@@ -24,6 +24,8 @@ The practical decision is whether to use AG-UI alone, a generative UI specificat
 Use [[ag-ui-protocol|AG-UI]] as the runtime protocol, Blazor as the controlled renderer, backend tools for warehouse facts and calculations, and a narrow WCS-specific widget schema as the first generated UI payload format.
 
 Do not let the model directly generate arbitrary UI. The model should choose from approved component types and fill typed payloads that Blazor validates and renders.
+
+The concrete AG-UI event for the committed widget payload is `STATE_SNAPSHOT`. If the UI needs incremental predictive updates, use `STATE_DELTA`. Do not make the final widget plan a frontend tool call.
 
 ## Recommended Architecture
 
@@ -111,6 +113,133 @@ Example generated payload:
 
 This is not free-form UI generation. It is constrained generative composition over a known dashboard vocabulary.
 
+## Exact AG-UI Event Contract
+
+The widget choice and datasource binding should be a structured dashboard state object carried by AG-UI state events.
+
+Use `STATE_SNAPSHOT` when the agent has produced the committed dashboard model that Blazor should render. Use `STATE_DELTA` only if the client supports incremental updates, usually as JSON Patch-style changes to the current dashboard state. Keep backend tool events for visibility into data fetching and computation; they are not the canonical format for the final widget layout.
+
+Minimal committed event:
+
+```json
+{
+  "type": "STATE_SNAPSHOT",
+  "snapshot": {
+    "schema": "wcs.dashboard.v1",
+    "answer": "Today's picking rate is 842 lines/hour. Main issue: conveyor B3 faults.",
+    "datasets": {
+      "pickRateToday": [
+        { "time": "08:00", "linesPerHour": 790 },
+        { "time": "09:00", "linesPerHour": 842 }
+      ],
+      "majorIssues": [
+        { "severity": "high", "area": "B3", "issue": "Conveyor fault", "impact": "staging delay" }
+      ]
+    },
+    "widgets": [
+      {
+        "id": "w1",
+        "type": "kpi",
+        "title": "Picking Rate",
+        "dataSource": "pickRateToday",
+        "valueField": "linesPerHour",
+        "unit": "lines/hour"
+      },
+      {
+        "id": "w2",
+        "type": "dataGrid",
+        "title": "Major Issues",
+        "dataSource": "majorIssues",
+        "columns": ["severity", "area", "issue", "impact"]
+      }
+    ]
+  }
+}
+```
+
+Minimal delta event:
+
+```json
+{
+  "type": "STATE_DELTA",
+  "delta": [
+    {
+      "op": "add",
+      "path": "/widgets/-",
+      "value": {
+        "id": "w3",
+        "type": "barChart",
+        "title": "Issues by Area",
+        "dataSource": "issuesByArea",
+        "xField": "area",
+        "yField": "count"
+      }
+    }
+  ]
+}
+```
+
+In the .NET Agent Framework path, the backend should constrain the model with `ChatResponseFormat.ForJsonSchema<DashboardState>()`, validate the result, then emit JSON `DataContent` with media type `application/json`. The AG-UI hosting layer maps that structured JSON to a `STATE_SNAPSHOT`.
+
+`CUSTOM` is a fallback for application-specific one-off signals, such as a workflow output, toast, or request for additional user input. It is weaker than `STATE_SNAPSHOT` for a WCS dashboard because widget layout, datasource references, and visible dashboard state need a durable state model that can be validated and reconciled.
+
+Minimal Blazor event handling shape:
+
+```csharp
+public sealed record DashboardState(
+    string Schema,
+    string Answer,
+    Dictionary<string, JsonElement[]> Datasets,
+    List<DashboardWidget> Widgets);
+
+public sealed record DashboardWidget(
+    string Id,
+    string Type,
+    string Title,
+    string DataSource,
+    string[]? Columns,
+    string? ValueField,
+    string? Unit);
+
+async Task OnAgUiEvent(JsonElement ev)
+{
+    var type = ev.GetProperty("type").GetString();
+
+    if (type == "STATE_SNAPSHOT")
+    {
+        dashboard = ev.GetProperty("snapshot")
+            .Deserialize<DashboardState>(jsonOptions);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // If STATE_DELTA is supported, apply RFC 6902 JSON Patch to dashboard.
+}
+```
+
+Minimal Blazor rendering shape:
+
+```razor
+@if (dashboard is not null)
+{
+    <p>@dashboard.Answer</p>
+
+    @foreach (var widget in dashboard.Widgets)
+    {
+        if (widget.Type == "kpi")
+        {
+            <KpiCard Widget="widget"
+                     Rows="dashboard.Datasets[widget.DataSource]" />
+        }
+        else if (widget.Type == "dataGrid")
+        {
+            <WcsDataGrid Widget="widget"
+                         Rows="dashboard.Datasets[widget.DataSource]" />
+        }
+    }
+}
+```
+
 ## Specification Choice
 
 | Choice | Recommendation for WCS dashboard |
@@ -148,14 +277,14 @@ Use [[trusted-frontend-mediation-for-ag-ui]] as the security pattern. End users 
 1. Host the Blazor app and AG-UI endpoint in the same ASP.NET Core deployment if that matches the existing WCS stack.
 2. Define backend tools around WCS read models and operational summaries.
 3. Define a small `DashboardWidget` schema with versioning and strict validation.
-4. Let the agent produce `{ answer, widgets, followUpActions }` instead of arbitrary UI.
+4. Let the agent produce a schema-valid dashboard state such as `{ answer, datasets, widgets, followUpActions }` instead of arbitrary UI.
 5. Render each widget through approved Blazor components.
 6. Add frontend tools only for semantic UI operations such as drilldown, filter changes, navigation, and panel opening.
 7. Log the tool calls, widget schema version, and rendered widget set for audit and regression testing.
 
 ## Follow-Up Directions
 
-- Design the exact WCS dashboard widget schema.
+- Refine the exact WCS dashboard widget schema and its `STATE_SNAPSHOT`/`STATE_DELTA` versioning rules.
 - Decide whether the first implementation should be Blazor Server, Blazor Web App, or a separate React/CopilotKit client.
 - Add an evaluation checklist for generated dashboard correctness, authorization, and operator trust.
 - Compare custom WCS schema against A2UI, Open-JSON-UI, and MCP-UI once .NET renderer support is clearer.
@@ -180,3 +309,4 @@ Use [[trusted-frontend-mediation-for-ag-ui]] as the security pattern. End users 
 - raw/articles/frontend-tool-rendering-with-ag-ui.md
 - raw/articles/state-management-with-ag-ui.md
 - raw/articles/security-considerations-for-ag-ui.md
+- raw/transcripts/wcs-dashboard-ag-ui-widget-state-event-session-2026-05-04.md

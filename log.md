@@ -196,3 +196,22 @@
 - Updated: index.md
 - Updated: log.md
 - Captured the Google Developers Blog A2UI v0.9 announcement and article visual assets, then compiled A2UI as a concrete generated-UI specification layer that can work alongside AG-UI rather than replacing it.
+
+## [2026-05-04] query ingest | WCS Dashboard AG-UI Widget State Events
+- Source: raw/transcripts/wcs-dashboard-ag-ui-widget-state-event-session-2026-05-04.md
+- Updated: queries/wcs-dashboard-generative-ui-ag-ui-blazor.md
+- Updated: index.md
+- Updated: log.md
+- Ingested the follow-up session clarifying that WCS dashboard widget choice and datasource binding should be a structured dashboard state carried by `STATE_SNAPSHOT`, with optional `STATE_DELTA`, while backend tool events remain progress/result visibility rather than the final render contract.
+
+## [2026-05-04] ingest | CopilotKit Generative UI for Agentic Apps
+- Source: raw/articles/copilotkit-generative-ui-for-agentic-apps.md
+- Assets: raw/assets/copilotkit-generative-ui-for-agentic-apps/
+- Created: source-summaries/copilotkit-generative-ui-for-agentic-apps-summary.md
+- Created: comparisons/generative-ui-control-spectrum.md
+- Updated: concepts/generative-ui-specifications.md
+- Updated: patterns/frontend-tool-rendering.md
+- Updated: systems/copilotkit.md
+- Updated: index.md
+- Updated: log.md
+- Captured the maintained CopilotKit monorepo Generative UI showcase and visual assets, then compiled the controlled, declarative, and open-ended Generative UI control spectrum into the wiki.

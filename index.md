@@ -2,7 +2,7 @@
 
 > Content catalog. Every wiki page listed under its type with a one-line summary.
 > Read this first to find relevant pages for any query.
-> Last updated: 2026-05-03 | Total pages: 38
+> Last updated: 2026-05-04 | Total pages: 40
 
 ## Source Summaries
 <!-- Alphabetical within section. Format: - [[page-name]] — one-line summary -->
@@ -12,6 +12,7 @@
 - [[backend-tool-rendering-with-ag-ui-summary|Backend Tool Rendering with AG-UI]] — Microsoft Learn tutorial on server-side function tools whose calls and results stream to AG-UI clients.
 - [[real-time-multi-agent-ui-with-ag-ui-and-agent-framework-workflows-summary|Building a Real-Time Multi-Agent UI with AG-UI and Microsoft Agent Framework Workflows]] — Microsoft Agent Framework DevBlog walkthrough of handoff-based multi-agent AG-UI with active-agent UI, case state, approvals, and resumable interrupts.
 - [[building-interactive-agent-uis-with-ag-ui-and-microsoft-agent-framework-summary|Building Interactive Agent UIs with AG-UI and Microsoft Agent Framework]] — Microsoft Tech Community walkthrough of AG-UI rationale, event streams, and Python Agent Framework integration.
+- [[copilotkit-generative-ui-for-agentic-apps-summary|CopilotKit Generative UI for Agentic Apps]] — CopilotKit monorepo showcase mapping controlled, declarative, and open-ended Generative UI patterns across AG-UI, A2UI/Open-JSON-UI, and MCP Apps.
 - [[frontend-tool-rendering-with-ag-ui-summary|Frontend Tool Rendering with AG-UI]] — Microsoft Learn tutorial on client-defined tools that execute locally and feed results back into AG-UI agent runs.
 - [[golden-triangle-agentic-development-ag-ui-devui-opentelemetry-summary|The Golden Triangle of Agentic Development with Microsoft Agent Framework]] — Microsoft Agent Framework DevBlog walkthrough tying GitHub Models, DevUI, AG-UI, and OpenTelemetry into a closed-loop developer lifecycle.
 - [[human-in-the-loop-with-ag-ui-summary|Human-in-the-Loop with AG-UI]] — Microsoft Learn tutorial showing approval-gated tool execution as a client-visible AG-UI flow in .NET.
@@ -51,7 +52,7 @@
 
 ## Systems
 <!-- Concrete products, prototypes, frameworks, or research systems -->
-- [[copilotkit]] — Frontend component/runtime layer for AG-UI-based React agent interfaces.
+- [[copilotkit]] — React runtime and example host for AG-UI-based agent interfaces, MCP Apps mediation, and controlled/declarative/open-ended Generative UI patterns.
 - [[deepseek-v4]] — Preview DeepSeek model family focused on efficient one-million-token context, stronger reasoning, and agent-oriented runtime design.
 - [[microsoft-agent-framework-ag-ui-integration]] — Adapter layer exposing Microsoft Agent Framework agents as AG-UI HTTP/SSE endpoints.
 
@@ -61,10 +62,11 @@
 
 ## Comparisons
 <!-- Side-by-side analyses -->
+- [[generative-ui-control-spectrum]] — Comparison of controlled, declarative, open-ended, and sandboxed component Generative UI approaches by application control, agent freedom, fit, and risk.
 
 ## Query Results
 <!-- Filed answers to notable questions -->
 - [[blazor-server-ag-ui-production-architecture|Blazor Server AG-UI Production Architecture]] — Same-host production design for Blazor Server as the AG-UI client layer with backend/frontend tool boundaries and circuit lifetimes.
 - [[blazor-server-in-ag-ui-ecosystem|How Blazor Server Fits into the AG-UI Ecosystem]] — Practical answer on Blazor Server as a custom AG-UI client shell around a .NET AG-UI backend, with current ecosystem caveats.
 - [[llm-prompt-tags-vs-harness-instructions|LLM Prompt Tags vs Harness Instructions]] — Practical distinction between harness-recognized Copilot instruction syntax and model-readable prompt structure such as XML-like tags.
-- [[wcs-dashboard-generative-ui-ag-ui-blazor|WCS Dashboard Generative UI with AG-UI and Blazor]] — Practical architecture for a warehouse control system dashboard using AG-UI, Blazor, backend tools, and a constrained widget schema.
+- [[wcs-dashboard-generative-ui-ag-ui-blazor|WCS Dashboard Generative UI with AG-UI and Blazor]] — Practical architecture for a WCS dashboard using AG-UI, Blazor, backend tools, a constrained widget schema, and `STATE_SNAPSHOT`/`STATE_DELTA` rendering state.

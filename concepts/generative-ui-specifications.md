@@ -1,10 +1,10 @@
 ---
 title: Generative UI Specifications
 created: 2026-05-02
-updated: 2026-05-03
+updated: 2026-05-04
 type: concept
 tags: [generative-ui, human-computer-interaction, runtime-rendering, adaptive-ui, software-agents]
-sources: [raw/articles/ag-ui-generative-ui-specs.md, raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md]
+sources: [raw/articles/ag-ui-generative-ui-specs.md, raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md, raw/articles/copilotkit-generative-ui-for-agentic-apps.md]
 contradictions: []
 ---
 
@@ -36,6 +36,8 @@ AG-UI sits primarily in the first question. A2UI, Open-JSON-UI, MCP-UI, or custo
 
 The Google A2UI v0.9 announcement turns the A2UI row into a concrete architecture direction. It emphasizes custom catalogs, client-defined functions, client-to-server data syncing, validation and repair of generated JSON, and transport flexibility across MCP, WebSockets, REST, AG-UI, and A2A. The important production lesson is that a generated UI spec should let agents express UI intent while the trusted application keeps control of the actual component catalog and renderer.
 
+The CopilotKit Generative UI examples add a practical [[generative-ui-control-spectrum|control-spectrum]] framing on top of this specification taxonomy. Controlled Generative UI uses prebuilt components and typed tool/render hooks; declarative Generative UI uses A2UI or Open-JSON-UI style payloads; open-ended Generative UI uses MCP Apps or sandboxed custom surfaces. This makes the spec decision part of a broader product-control decision, not only a protocol selection.
+
 ## Practical Implications for Generative UI
 
 The distinction helps teams avoid treating Generative UI as one implementation style. A system can use [[frontend-tool-rendering]] or [[backend-tool-rendering]] for controlled UI, [[shared-ui-state-synchronization]] for application state, and a separate spec when the agent needs to return a richer structured interface.
@@ -52,6 +54,7 @@ For .NET-oriented AG-UI work, this is a planning signal rather than a direct imp
 - Custom generated UI standards can fragment a product unless the application owns compatibility and migration rules.
 - Current spec support may differ across TypeScript, Python, .NET, and other stacks.
 - Draft generated UI schemas can shift faster than application renderers and component catalogs can safely migrate.
+- Open-ended UI can create a false sense of speed if iframe policy, resource authorization, and generated-content validation are not treated as first-class architecture.
 
 ## Open Questions
 
@@ -66,6 +69,7 @@ For .NET-oriented AG-UI work, this is a planning signal rather than a direct imp
 - [[frontend-tool-rendering]]
 - [[backend-tool-rendering]]
 - [[shared-ui-state-synchronization]]
+- [[generative-ui-control-spectrum]]
 - [[mcp-apps-middleware-bridge]]
 - [[trusted-frontend-mediation-for-ag-ui]]
 - [[ag-ui-feature-coverage-testing]]
@@ -74,3 +78,4 @@ For .NET-oriented AG-UI work, this is a planning signal rather than a direct imp
 
 - raw/articles/ag-ui-generative-ui-specs.md
 - raw/articles/a2ui-v0-9-portable-framework-agnostic-generative-ui.md
+- raw/articles/copilotkit-generative-ui-for-agentic-apps.md

@@ -1,10 +1,10 @@
 ---
 title: CopilotKit
 created: 2026-04-20
-updated: 2026-04-28
+updated: 2026-05-04
 type: system
 tags: [generative-ui, product, framework, runtime-rendering, tool-use, state-management]
-sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/mcp-apps-compatibility-with-ag-ui.md]
+sources: [raw/articles/ag-ui-integration-with-agent-framework.md, raw/articles/mcp-apps-compatibility-with-ag-ui.md, raw/articles/copilotkit-generative-ui-for-agentic-apps.md]
 contradictions: []
 status: active
 ---
@@ -36,6 +36,16 @@ CopilotKit aims to provide polished agent UI behaviors around a standardized pro
 
 With MCP Apps middleware, CopilotKit also becomes a runtime bridge for embedding MCP-powered tools and resources alongside an AG-UI agent. That makes [[mcp-apps-middleware-bridge]] a separate role from ordinary [[frontend-tool-rendering]]: the middleware resolves MCP app resources and proxy behavior, while frontend tools are application-local capabilities exposed through AG-UI.
 
+## Generative UI Example Host
+
+The CopilotKit monorepo's Generative UI showcase positions CopilotKit as a hands-on example host for the [[generative-ui-control-spectrum]]. Its examples map:
+
+- controlled Generative UI to prebuilt React components selected through `useFrontendTool`;
+- declarative Generative UI to A2UI or Open-JSON-UI payloads rendered by a client-side renderer;
+- open-ended Generative UI to MCP Apps or sandboxed generated components.
+
+This strengthens CopilotKit's role in the wiki from "AG-UI React frontend" to a broader JavaScript implementation path for comparing controlled, declarative, and open-ended agent UI surfaces.
+
 ## Evaluation
 
 The source does not provide independent user research or benchmark results for CopilotKit. It positions CopilotKit as a practical frontend implementation path for AG-UI-based interfaces.
@@ -46,12 +56,14 @@ The source does not provide independent user research or benchmark results for C
 - Client tools need clear boundaries so user-facing UI actions do not accidentally expose unsafe backend capabilities.
 - Shared state and generative component rendering can become hard to reason about if the app mixes protocol state with separate local UI state.
 - MCP Apps middleware can hide an important resource and authorization boundary inside frontend/runtime infrastructure if it is treated as simple UI plumbing.
+- Open-ended generated component examples should not be copied into enterprise apps without a sandbox, content policy, and resource authorization model.
 
 ## Related
 
 - [[ag-ui-protocol]]
 - [[microsoft-agent-framework-ag-ui-integration]]
 - [[agent-ui-protocol-bridge]]
+- [[generative-ui-control-spectrum]]
 - [[mcp-apps-middleware-bridge]]
 - [[trusted-frontend-mediation-for-ag-ui]]
 
@@ -59,3 +71,4 @@ The source does not provide independent user research or benchmark results for C
 
 - raw/articles/ag-ui-integration-with-agent-framework.md
 - raw/articles/mcp-apps-compatibility-with-ag-ui.md
+- raw/articles/copilotkit-generative-ui-for-agentic-apps.md
